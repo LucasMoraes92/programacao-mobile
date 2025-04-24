@@ -168,6 +168,128 @@ ________________________________________
  **PROTÓTIPO 2 - Calculadora de IMC** 
 ________________________________________
 
+**1. Container**
+
+**Descrição**: Componente de layout que permite agrupar e estilizar elementos, como campos de entrada ou resultados.
+
+**Aplicações**: Usado para separar visualmente o formulário de entrada e o box de resultado do IMC.
+
+**Como usar**:
+
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: const
+        
+________________________________________
+
+**2. Column**
+
+**Descrição**: Empilha widgets verticalmente.
+
+**Aplicações**: Usado para organizar os elementos do formulário, os botões e os resultados.
+
+**Como usar**:
+
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          TextField
+
+________________________________________
+
+**3. Row**
+
+**Descrição**: Empilha widgets horizontalmente.
+
+**Aplicações**: Alinha os botões "Calcular IMC" e "Limpar Tudo" lado a lado.
+
+**Como usar**:
+
+Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Expanded(
+                child: ElevatedButton
+                
+________________________________________
+
+**4. TextField**
+
+**Descrição**: Campo de entrada de texto.
+
+**Aplicações**: Receber altura e peso do usuário.
+
+**Como usar**:
+
+TextField(
+  controller: controller,
+  keyboardType: TextInputType.number,
+  decoration: InputDecoration(
+    labelText: 'Altura (cm)',
+    border: OutlineInputBorder(),
+  ),
+)
+
+________________________________________
+5. SizedBox
+Descrição:
+Gera espaços entre os widgets. Aplicações:
+Criar espaçamento visual entre elementos da tela. Como usar:
+SizedBox(height: 10),
+6. ElevatedButton
+Descrição:
+Botão elevado para interações principais. Aplicações:
+Botões para calcular o IMC e limpar os campos. Como usar:
+ElevatedButton(
+  onPressed: () {},
+  child: Text('Calcular IMC'),
+)
+7. ToggleButtons
+Descrição:
+Conjunto de botões que permite selecionar uma ou mais opções. Aplicações:
+Seleção de sexo (masculino ou feminino). Como usar:
+ToggleButtons(
+  isSelected: [true, false],
+  onPressed: (index) {},
+  children: [
+    Text('Masculino'),
+    Text('Feminino'),
+  ],
+)
+8. DropdownButton
+Descrição:
+Botão suspenso para selecionar um item de uma lista. Aplicações:
+Permite que o usuário selecione sua idade. Como usar:
+DropdownButton<int>(
+  value: idadeSelecionada,
+  hint: Text('Selecione sua idade'),
+  items: [...],
+  onChanged: (int? newValue) {},
+)
+9. Text
+Descrição:
+Exibe texto na interface. Aplicações:
+Mostrar mensagens de erro, resultados do IMC, idade e sexo. Como usar:
+Text(
+  'Seu IMC é: 22.4',
+  style: TextStyle(fontSize: 20),
+)
+10. BoxDecoration
+Descrição:
+Permite estilizar containers com cor, borda, sombra e bordas arredondadas. Aplicações:
+Usado para dar estilo ao formulário e resultado. Como usar:
+decoration: BoxDecoration(
+  color: Colors.white,
+  borderRadius: BorderRadius.circular(12),
+  boxShadow: [
+    BoxShadow(color: Colors.black12, blurRadius: 4)
+  ],
+)
+
+
 
 
 
