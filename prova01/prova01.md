@@ -6,7 +6,7 @@
 
  **PROTÓTIPO 1 - Catálogo de Viagens** 
 ________________________________________
-**1. MaterialApp**
+##**1. MaterialApp**
 **Descrição**: Widget raiz que define tema, título e tela inicial.
 **Aplicações**: Define o tema do app e o ponto de entrada com CatalogoPage.
 **Como usar**:
