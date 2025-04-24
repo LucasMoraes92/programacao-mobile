@@ -168,7 +168,174 @@ ________________________________________
  **PROTÓTIPO 2 - Calculadora de IMC** 
 ________________________________________
 
+
+
+
 ________________________________________
  **PROTÓTIPO 3 - Perfil de Artista Musical** 
 ________________________________________
 
+**1. MaterialApp**
+
+**Descrição**: Widget raiz da aplicação que configura o tema e a navegação.
+
+**Aplicações**: Define o título, tema escuro com paleta personalizada e tela inicial.
+
+**Como usar**:
+
+    return MaterialApp(
+      title: 'Nebula Band',
+      debugShowCheckedModeBanner: false, 
+      theme: ThemeData(
+        (...)
+        textTheme: TextTheme(
+          bodyMedium: TextStyle(color: Colors.white70),
+        (...)
+      home: PerfilArtistaPage(),
+
+________________________________________
+
+**2. Scaffold**
+
+**Descrição**: Estrutura básica de tela com suporte a AppBar, Body, FloatingActionButton etc.
+
+**Aplicações**: Define a tela principal com body e SafeArea.
+
+**Como usar**:
+
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column
+
+________________________________________
+
+**3. Stack + Positioned**
+
+**Descrição**: Sobrepõe widgets uns sobre os outros.
+
+**Aplicações**: Coloca o nome da banda sobre a imagem de fundo da capa.
+**Como usar**:
+
+              Stack( 
+                children: [
+                  Image.network(
+                    'https://',
+                    height: 220,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                  Positioned(
+                    bottom: 16,
+
+________________________________________
+
+**4. Column**
+
+**Descrição**: Empilha widgets verticalmente.
+
+**Aplicações**: Organiza elementos como biografia, botões e seções.
+
+**Como usar**:
+
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children:
+
+________________________________________
+
+**5. Row**
+
+**Descrição**: Organiza widgets horizontalmente.
+
+**Aplicações**: Agrupa os botões “Reproduzir” e “Seguir”.
+
+**Como usar**:
+
+                    Row(
+                      children: [
+                        ElevatedButton.icon(
+                        (...)
+                        OutlinedButton(
+                         (...)
+
+________________________________________
+
+**6. ElevatedButton & OutlinedButton**
+
+**Descrição**: Botões de ação com ou sem preenchimento.
+
+**Aplicações**: Um para iniciar a reprodução (e abrir modal), outro para seguir/desseguir o artista.
+**Como usar**:
+
+                        ElevatedButton.icon(
+                          onPressed: () {
+                          (...)
+                          label: Text("Reproduzir"),
+
+                        OutlinedButton(
+                          onPressed: () {
+                          (...)
+                          child: Text(seguindo ? 'Seguindo' : 'Seguir')                      
+
+________________________________________
+
+**7. showModalBottomSheet**
+
+**Descrição**: Exibe uma aba deslizante na parte inferior da tela.
+
+**Aplicações**: Mostra a playlist com controles de música.
+
+**Como usar**:
+
+                            showModalBottomSheet(
+                              context: context,
+                              (...)
+                              builder: (_) {
+                                return StatefulBuilder(
+                                  builder: (context, setModalState) {
+                                    void togglePlay() {
+                                      setModalState(() => tocando = !tocando);
+                                    }
+
+
+________________________________________
+
+**8. ListView.builder**
+
+**Descrição**: Lista de rolagem dinâmica baseada em dados.
+
+**Aplicações**: Exibe os álbuns da banda na seção “Discografia”.
+
+**Como usar**:
+
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: albuns.length,
+                  itemBuilder: (context, index) 
+                  
+________________________________________
+
+**9. SnackBar**
+
+**Descrição**: Componente temporário para feedback ao usuário.
+
+**Aplicações**: Exibe a música que está tocando ou foi pausada.
+
+**Como usar**:
+
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Tocando: ${album["titulo"]}')),
+
+________________________________________
+
+**10. StatefulBuilder**
+
+**Descrição**: Permite reatividade dentro de um modal (como uma mini State class).
+
+**Aplicações**: Atualiza o estado dentro do showModalBottomSheet para controle do player.
+
+**Como usar**:
+
+                                return StatefulBuilder(
+                                  builder: (context, setModalState) 
