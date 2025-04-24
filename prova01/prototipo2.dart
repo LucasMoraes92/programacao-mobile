@@ -1,333 +1,262 @@
-//Importa o pacote necessário para interface
+
+// importa o pacote base
 import 'package:flutter/material.dart';
 
-//função principal
-void main() => runApp(SpotifyPerfil());
+//função principaç
+void main() => runApp(IMCCalculatorApp());
 
-//classe principal
-class SpotifyPerfil extends StatelessWidget {
+// widget principal – define tema e tela inicial
+class IMCCalculatorApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Nebula Band',
-      debugShowCheckedModeBanner: false, //removendo a faixa de debug
+      title: 'Calculadora de IMC',
       theme: ThemeData(
-//temas e cores
-        brightness: Brightness.dark,
-        scaffoldBackgroundColor: Color(0xFF1A1A2E),
-        colorScheme: ColorScheme.dark(
-          primary: Color(0xFF6A1B9A),
-          secondary: Color(0xFFFF9800),
-        ),
-        textTheme: TextTheme(
-          bodyMedium: TextStyle(color: Colors.white70),
-        ),
+        useMaterial3: true,
+        colorSchemeSeed: Colors.teal,
+        scaffoldBackgroundColor: Colors.grey[300],
       ),
-      home: PerfilArtistaPage(),
+      home: IMCCalculatorPage(),
     );
   }
 }
 
-//página do artista
-class PerfilArtistaPage extends StatefulWidget {
+// tela com estado onde ocorre o cálculo do IMC
+class IMCCalculatorPage extends StatefulWidget {
   @override
-  State<PerfilArtistaPage> createState() => _PerfilArtistaPageState();
+  _IMCCalculatorPageState createState() => _IMCCalculatorPageState();
 }
 
-//informações do artista
-class _PerfilArtistaPageState extends State<PerfilArtistaPage> {
-  final String nome = "Nebula Band";
-  final String ouvintes = "1.2M ouvintes mensais";
-  final String biografia =
-      "A Nebula Band é conhecida por seu som etéreo e letras introspectivas. "
-      "Desde seu álbum de estreia, a banda norueguesa conquistou fãs ao redor do mundo.";
+// controladores de texto (altura e peso)
+class _IMCCalculatorPageState extends State<IMCCalculatorPage> {
+  final alturaController = TextEditingController();
+  final pesoController = TextEditingController();
+  double? imc;
+  String classificacao = "";
+  String? erro;
 
-  final List<Map<String, String>> albuns = [
-    {
-      "titulo": "Reflexos Cósmicos",
-      "url": "https://cdn-images.dzcdn.net/images/cover/8848c366508735e513fed3e2c6f2a6d1/0x1900-000000-80-0-0.jpg"
-    },
-    {
-      "titulo": "Nebulosa",
-      "url": "https://cdn-images.dzcdn.net/images/artist/e18ef0a6c3bc33473cfc6fba9b1e773f/1900x1900-000000-80-0-0.jpg"
-    },
-    {
-      "titulo": "Som das Estrelas",
-      "url": "https://upload.wikimedia.org/wikipedia/commons/e/ec/Record-Album-02.jpg"
-    },
-    {
-      "titulo": "Horizonte Vazio",
-      "url": "https://cdn-images.dzcdn.net/images/cover/ee2ec330daddb9ef21e0f988c18750b2/0x1900-000000-80-0-0.jpg"
-    },
-  ];
+//seleciona idade e sexo
+  List<bool> isSexoSelecionado = [true, false]; // [Masculino, Feminino]
+  int? idadeSelecionada;
 
-//controle de botão de seguir e player
-  bool seguindo = false;
-  bool tocando = false;
-  int musicaAtualIndex = 0;
+//função calcular imc
+  void calcularIMC() {
+    final alturaCm = double.tryParse(alturaController.text);
+    final peso = double.tryParse(pesoController.text);
 
-  final List<String> playlist = [
-    "Nebula Dreams",
-    "Ecos do Vazio",
-    "Horizonte Silencioso",
-    "Aurora Boreal",
-    "Som das Estrelas",
-    "Vórtice Sonoro",
-  ];
+//verifica se os campos foram preenchidos
+    if (alturaCm == null || peso == null || alturaCm <= 0 || peso <= 0 || idadeSelecionada == null) {
+      setState(() {
+        imc = null;
+        classificacao = "";
+        erro = "Por favor, preencha todos os campos corretamente.";
+      });
+      return;
+    }
 
+    final altura = alturaCm / 100;
+    final resultado = peso / (altura * altura);
+
+    setState(() {
+      imc = resultado;
+      classificacao = _classificarIMC(resultado);
+      erro = null;
+    });
+  }
+
+//função limpar campos
+  void limparCampos() {
+    setState(() {
+      alturaController.clear();
+      pesoController.clear();
+      imc = null;
+      classificacao = "";
+      idadeSelecionada = null;
+      erro = null;
+      isSexoSelecionado = [true, false];
+    });
+  }
+
+//retorna a classificação com base no valor do IMC
+  String _classificarIMC(double imc) {
+    if (imc < 18.5) return "Abaixo do peso";
+    if (imc < 24.9) return "Peso normal";
+    if (imc < 29.9) return "Sobrepeso";
+    if (imc < 34.9) return "Obesidade Grau I";
+    if (imc < 39.9) return "Obesidade Grau II";
+    return "Obesidade Grau III";
+  }
+
+//constrói a interface principal
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView( //rolagem da tela
-          child: Column(
+      appBar: AppBar(title: const Center(child: Text('Calculadora de IMC'))),
+      body: SingleChildScrollView(//reolagem da tela
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            _buildInputBox(),
+            const SizedBox(height: 20),
+            if (erro != null)
+              Text(
+                erro!,
+                style: const TextStyle(color: Colors.red, fontSize: 16),
+                textAlign: TextAlign.center,
+              ),
+            if (imc != null) _buildResultadoBox(),
+          ],
+        ),
+      ),
+    );
+  }
+
+// caixa com os campos de entrada (input)
+  Widget _buildInputBox() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: const [
+          BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(2, 2)),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          TextField(
+            controller: alturaController,
+            keyboardType: TextInputType.number,
+            decoration: const InputDecoration(
+              labelText: 'Altura (cm)',
+              border: OutlineInputBorder(),
+            ),
+          ),
+          const SizedBox(height: 10),
+          TextField(
+            controller: pesoController,
+            keyboardType: TextInputType.number,
+            decoration: const InputDecoration(
+              labelText: 'Peso (kg)',
+              border: OutlineInputBorder(),
+            ),
+          ),
+          const SizedBox(height: 20),
+          const Text('Sexo', style: TextStyle(fontWeight: FontWeight.bold)),
+          const SizedBox(height: 6),
+          ToggleButtons(
+            isSelected: isSexoSelecionado,
+            onPressed: (int index) {
+              setState(() {
+                for (int i = 0; i < isSexoSelecionado.length; i++) {
+                  isSexoSelecionado[i] = i == index;
+                }
+              });
+            },
+            borderRadius: BorderRadius.circular(8),
+            selectedColor: Colors.white,
+            fillColor: Colors.teal,
+            children: const [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: Text('Masculino'),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: Text('Feminino'),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          const Text('Idade', style: TextStyle(fontWeight: FontWeight.bold)),
+          const SizedBox(height: 6),
+          DropdownButton<int>(
+            value: idadeSelecionada,
+            hint: const Text('Selecione sua idade'),
+            isExpanded: true,
+            items: List.generate(100, (index) => index + 1).map((int idade) {
+              return DropdownMenuItem<int>(
+                value: idade,
+                child: Text('$idade anos'),
+              );
+            }).toList(),
+            onChanged: (int? newValue) {
+              setState(() {
+                idadeSelecionada = newValue;
+              });
+            },
+          ),
+          const SizedBox(height: 20),
+         
+// botões de calcular e limpar
+ Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Stack( //imagem e nome da banda
-                children: [
-                  Image.network(
-                    'https://i0.wp.com/musicalidades.com.br/wp-content/uploads/2018/11/o-que-e-musica-4.jpg?fit=1080%2C512&ssl=1',
-                    height: 220,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
-                  Positioned(
-                    bottom: 16,
-                    left: 16,
-                    child: Text(
-                      nome,
-                      style: TextStyle(
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        shadows: [
-                          Shadow(
-                            blurRadius: 10,
-                            color: Colors.black87,
-                            offset: Offset(2, 2),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Padding( //bloco com ouvintes, biografia, botões
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(ouvintes, style: TextStyle(color: Colors.orangeAccent)),
-                    SizedBox(height: 8),
-                    Text(
-                      biografia,
-                      style: TextStyle(color: Colors.white70, fontSize: 14),
-                      textAlign: TextAlign.justify,
-                    ),
-                    SizedBox(height: 16),
-                    Row(
-                      children: [
-                        ElevatedButton.icon(
-                          onPressed: () {
-                            showModalBottomSheet(
-                              context: context,
-                              backgroundColor: Color(0xFF2C2C54),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-                              ),
-                              builder: (_) {
-                                return StatefulBuilder(
-                                  builder: (context, setModalState) {
-                                    void togglePlay() {
-                                      setModalState(() => tocando = !tocando);
-                                    }
-
-                                    void proximaMusica() {
-                                      setModalState(() {
-                                        musicaAtualIndex = (musicaAtualIndex + 1) % playlist.length;
-                                        tocando = true;
-                                      });
-                                    }
-
-                                    void musicaAnterior() {
-                                      setModalState(() {
-                                        musicaAtualIndex = (musicaAtualIndex - 1 + playlist.length) % playlist.length;
-                                        tocando = true;
-                                      });
-                                    }
-
-                                    return Padding(
-                                      padding: const EdgeInsets.all(20),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Text(
-                                            'Tocando agora:',
-                                            style: TextStyle(color: Colors.white70, fontSize: 16),
-                                          ),
-                                          SizedBox(height: 10),
-                                          Text(
-                                            playlist[musicaAtualIndex],
-                                            style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                          SizedBox(height: 20),
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: [
-                                              IconButton(
-                                                icon: Icon(Icons.skip_previous, color: Colors.orangeAccent, size: 32),
-                                                onPressed: musicaAnterior,
-                                              ),
-                                              IconButton(
-                                                icon: Icon(
-                                                  tocando ? Icons.pause_circle : Icons.play_circle,
-                                                  color: Colors.orange,
-                                                  size: 48,
-                                                ),
-                                                onPressed: togglePlay,
-                                              ),
-                                              IconButton(
-                                                icon: Icon(Icons.skip_next, color: Colors.orangeAccent, size: 32),
-                                                onPressed: proximaMusica,
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(height: 10),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                );
-                              },
-                            );
-                          },
-                          icon: Icon(Icons.play_arrow),
-                          label: Text("Reproduzir"),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xFFFF9800),
-                            foregroundColor: Colors.black,
-                          ),
-                        ),
-                        SizedBox(width: 12),
-                        OutlinedButton(
-                          onPressed: () {
-                            setState(() {
-                              seguindo = !seguindo;
-                            });
-                          },
-                          style: OutlinedButton.styleFrom(
-                            foregroundColor: Colors.white,
-                            side: BorderSide(color: Colors.purple.shade300),
-                          ),
-                          child: Text(seguindo ? 'Seguindo' : 'Seguir'),
-                        ),
-                      ],
-                    ),
-                  ],
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: calcularIMC,
+                  child: const Text('Calcular IMC'),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 16, top: 16),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Discografia',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: theme.colorScheme.primary,
-                    ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: limparCampos,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey[400],
+                    foregroundColor: Colors.black,
                   ),
-                ),
-              ),
-              Container( //list horizontal dos álbuns
-                height: 180,
-                margin: EdgeInsets.only(top: 10),
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: albuns.length,
-                  itemBuilder: (context, index) {
-                    final album = albuns[index];
-                    return GestureDetector(
-                      onTap: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Tocando: ${album["titulo"]}')),
-                        );
-                      },
-                      child: Container(
-                        width: 140,
-                        margin: EdgeInsets.symmetric(horizontal: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image.network(
-                                album["url"]!,
-                                height: 120,
-                                width: 140,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            SizedBox(height: 8),
-                            Text(
-                              album["titulo"]!,
-                              style: TextStyle(fontSize: 14, color: Colors.white),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Curiosidades',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: theme.colorScheme.primary,
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    curiosidadeItem(Icons.star, 'Já abriu shows para Aurora e Sigur Rós.'),
-                    curiosidadeItem(Icons.public, 'Tem fãs em mais de 30 países.'),
-                    curiosidadeItem(Icons.headphones, 'Teve 50 milhões de streams em 2024.'),
-                  ],
+                  child: const Text('Limpar Tudo'),
                 ),
               ),
             ],
           ),
-        ),
+        ],
       ),
     );
   }
 
-  Widget curiosidadeItem(IconData icone, String texto) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0),
-      child: Row(
+//caixa com os resultados do cálculo
+  Widget _buildResultadoBox() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.only(top: 10),
+      decoration: BoxDecoration(
+        color: Colors.teal[50],
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.teal),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Icon(icone, color: Colors.orangeAccent, size: 20),
-          SizedBox(width: 8),
-          Expanded(
-            child: Text(
-              texto,
-              style: TextStyle(color: Colors.white70),
+          Text(
+            'Seu IMC é: ${imc!.toStringAsFixed(2)}',
+            style: const TextStyle(fontSize: 20),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 10),
+          Text(
+            'Classificação: $classificacao',
+            style: const TextStyle(fontSize: 20),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 10),
+          if (idadeSelecionada != null)
+            Text(
+              'Idade: $idadeSelecionada anos',
+              style: const TextStyle(fontSize: 20),
+              textAlign: TextAlign.center,
             ),
+          const SizedBox(height: 10),
+          Text(
+            'Sexo: ${isSexoSelecionado[0] ? "Masculino" : "Feminino"}',
+            style: const TextStyle(fontSize: 20),
+            textAlign: TextAlign.center,
           ),
         ],
       ),
     );
   }
 }
-
