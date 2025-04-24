@@ -224,73 +224,109 @@ ________________________________________
 
 **Como usar**:
 
-TextField(
-  controller: controller,
-  keyboardType: TextInputType.number,
-  decoration: InputDecoration(
-    labelText: 'Altura (cm)',
-    border: OutlineInputBorder(),
-  ),
-)
+          TextField(
+            controller: alturaController,
+            keyboardType: TextInputType.number,
+            decoration: const InputDecoration(
+              labelText: 'Altura (cm)',
+              border: OutlineInputBorder(),
+            ),
 
 ________________________________________
-5. SizedBox
-Descrição:
-Gera espaços entre os widgets. Aplicações:
-Criar espaçamento visual entre elementos da tela. Como usar:
-SizedBox(height: 10),
-6. ElevatedButton
-Descrição:
-Botão elevado para interações principais. Aplicações:
-Botões para calcular o IMC e limpar os campos. Como usar:
-ElevatedButton(
-  onPressed: () {},
-  child: Text('Calcular IMC'),
-)
-7. ToggleButtons
-Descrição:
-Conjunto de botões que permite selecionar uma ou mais opções. Aplicações:
-Seleção de sexo (masculino ou feminino). Como usar:
-ToggleButtons(
-  isSelected: [true, false],
-  onPressed: (index) {},
-  children: [
-    Text('Masculino'),
-    Text('Feminino'),
-  ],
-)
-8. DropdownButton
-Descrição:
-Botão suspenso para selecionar um item de uma lista. Aplicações:
-Permite que o usuário selecione sua idade. Como usar:
-DropdownButton<int>(
-  value: idadeSelecionada,
-  hint: Text('Selecione sua idade'),
-  items: [...],
-  onChanged: (int? newValue) {},
-)
-9. Text
-Descrição:
-Exibe texto na interface. Aplicações:
-Mostrar mensagens de erro, resultados do IMC, idade e sexo. Como usar:
-Text(
-  'Seu IMC é: 22.4',
-  style: TextStyle(fontSize: 20),
-)
-10. BoxDecoration
-Descrição:
-Permite estilizar containers com cor, borda, sombra e bordas arredondadas. Aplicações:
-Usado para dar estilo ao formulário e resultado. Como usar:
-decoration: BoxDecoration(
-  color: Colors.white,
-  borderRadius: BorderRadius.circular(12),
-  boxShadow: [
-    BoxShadow(color: Colors.black12, blurRadius: 4)
-  ],
-)
 
+**5. SizedBox**
 
+**Descrição**: Gera espaços entre os widgets. 
+**Aplicações**: Criar espaçamento visual entre elementos da tela. 
+**Como usar**:
 
+          const SizedBox(height: 10)
+
+________________________________________
+
+**6. ElevatedButton**
+
+**Descrição**: Botão elevado para interações principais.
+
+**Aplicações**: Botões para calcular o IMC e limpar os campos. 
+
+**Como usar**:
+
+                child: ElevatedButton(
+                  onPressed: calcularIMC,
+                  child: const Text('Calcular IMC'),
+
+________________________________________
+
+**7. ToggleButtons**
+
+**Descrição**: Conjunto de botões que permite selecionar uma ou mais opções.
+
+**Aplicações**: Seleção de sexo (masculino ou feminino).
+
+**Como usar**:
+
+          ToggleButtons(
+            isSelected: isSexoSelecionado,
+            onPressed: (int index) {
+              setState(() {
+                for (int i = 0; i < isSexoSelecionado.length; i++) {
+                  isSexoSelecionado[i] = i == index;
+                }
+                (...)
+                child: Text('Masculino'),
+                 child: Text('Feminino'),
+
+________________________________________
+
+**8. DropdownButton**
+
+**Descrição**: Botão suspenso para selecionar um item de uma lista.
+
+**Aplicações**: Permite que o usuário selecione sua idade. 
+
+**Como usar**:
+
+              return DropdownMenuItem<int>(
+                value: idade,
+                child: Text('$idade anos'),
+              );
+            }).toList(),
+            onChanged: (int? newValue) 
+            
+________________________________________
+
+**9. Text**
+
+**Descrição**: Exibe texto na interface.
+
+**Aplicações**: Mostrar mensagens de erro, resultados do IMC, idade e sexo.
+
+**Como usar**:
+
+        children: [
+          Text(
+            'Seu IMC é: ${imc!.toStringAsFixed(2)}',
+            style: const TextStyle(fontSize: 20),
+            textAlign: TextAlign.center,
+          ),
+
+________________________________________
+
+**10. BoxDecoration**
+
+**Descrição**: Permite estilizar containers com cor, borda, sombra e bordas arredondadas. 
+
+**Aplicações**: Usado para dar estilo ao formulário e resultado. 
+
+**Como usar**:
+
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: const [
+          BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(2, 2)),
+        ],
 
 
 ________________________________________
