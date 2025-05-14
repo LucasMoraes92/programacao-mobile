@@ -12,7 +12,7 @@ ________________________________________
 
 **Descrição**: Widget fundamental que configura a aplicação, definindo o título e a tela inicial.
 
-**Aplicações**: Inicializa o aplicativo "The Jogo" e define `TelaJogo` como sua página principal. É o ponto de partida para a interface do usuário, envolvendo toda a estrutura visual e de navegação.
+**Aplicações**: Inicializa o aplicativo e define `TelaJogo` como sua página principal. É o ponto de partida para a interface do usuário, envolvendo toda a estrutura visual e de navegação.
 
 **Como usar**:
 
@@ -43,7 +43,7 @@ ________________________________________
 
 **Descrição**: Cria uma grade rolável de itens que são construídos dinamicamente conforme necessário. É ideal para exibir um conjunto de elementos em um layout de grade, especialmente quando o número de itens pode ser grande ou variável.
 
-**Aplicações**: No "The Jogo", é usado para exibir os 20 botões numerados. O jogador interage com esses botões para tentar encontrar o tesouro, evitando a bomba e o monstro. A grade é configurada para ter 4 colunas, com espaçamento entre os botões.
+**Aplicações**: É usado para exibir os 20 botões numerados. O jogador interage com esses botões para tentar encontrar o tesouro, evitando a bomba e o monstro. A grade é configurada para ter 4 colunas, com espaçamento entre os botões.
 
 **Como usar**:
 
@@ -67,7 +67,7 @@ ________________________________________
 
 **Descrição**: Um componente de botão material que exibe uma elevação, indicando que é interativo. Responde a eventos de clique para acionar ações.
 
-**Aplicações**: Fundamental no "The Jogo", cada uma das 20 casas da grade é um `ElevatedButton`. Ao ser clicado, revela se o jogador encontrou o tesouro, uma bomba, um monstro ou uma dica. Um `ElevatedButton` adicional é usado para a funcionalidade "NOVO JOGO", permitindo reiniciar a partida.
+**Aplicações**: Cada uma das 20 casas da grade é um `ElevatedButton`. Ao ser clicado, revela se o jogador encontrou o tesouro, uma bomba, um monstro ou uma dica. Um `ElevatedButton` adicional é usado para a funcionalidade "NOVO JOGO", permitindo reiniciar a partida.
 
 **Como usar**:
 
@@ -83,7 +83,6 @@ ________________________________________
       ),
     );
 
-    // Exemplo do botão "NOVO JOGO"
     ElevatedButton(
       onPressed: _novoJogo, // Ação para iniciar um novo jogo
       child: Text('NOVO JOGO'),
@@ -97,7 +96,7 @@ ________________________________________
 - O método `_novoJogo()` é responsável por inicializar ou reiniciar a partida. Ele sorteia aleatoriamente as posições do tesouro, da bomba e do monstro entre os 20 botões disponíveis. Além disso, redefine a mensagem exibida ao jogador e o estado visual e funcional de todos os botões da grade.
 - O método `_handleButtonPress(int index)` é acionado quando o jogador clica em um dos botões da grade. Ele verifica o que está escondido atrás do botão selecionado (tesouro, bomba, monstro ou nada). Com base nisso, atualiza a mensagem principal do jogo (por exemplo, "Você encontrou o Tesouro! 🏆"), altera o rótulo do botão clicado (para um emoji correspondente ou uma interrogação) e habilita/desabilita os botões conforme as regras do jogo. Se o jogador não encontra um item especial, o jogo pode fornecer uma dica sobre a localização do tesouro.
 
-**Como usar (Conceitual - trechos da lógica interna)**:
+**Como usar**:
 
     // Dentro da classe _TelaJogoState
 
