@@ -1,3 +1,10 @@
+**EQUIPE**
+- AUGUSTO CESAR BONTORIN
+- LUCAS EUGÊNIO FLORIANO DE MORAES
+- LUIZ GUSTAVO LOPES
+
+________________________________________
+
 **THE JOGO - Protótipo Simplificado**
 
 ________________________________________
