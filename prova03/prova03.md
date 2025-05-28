@@ -21,8 +21,6 @@ ________________________________________
       ),
       home: const PerfilPetScreen(),
     );
-  }
-}
  
 
 ________________________________________
@@ -32,22 +30,22 @@ ________________________________________
 **Aplicações**: Envolve o formulário de cadastro de pets com uma AppBar (com ícone de perfil) e um corpo rolável com campos de entrada e seleções.
 
 **Como usar**:
-return Scaffold(
-  appBar: AppBar(
-    title: const Text('Perfil do Pet'),
-    actions: [
-      IconButton(
-        icon: const Icon(Icons.account_circle),
-        tooltip: 'Perfil do Usuário',
-        onPressed: () { ... },
+
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Perfil do Pet'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.account_circle),
+            tooltip: 'Perfil do Usuário',
+            onPressed: () { ... }
+          ),
+        ],
       ),
-    ],
-  ),
-  body: SingleChildScrollView(
-    padding: EdgeInsets.only(...),
-    child: Form(...),
-  ),
-);
+      body: SingleChildScrollView(
+        padding: EdgeInsets.only(...),
+        child: Form(...),
 
 ________________________________________
 **3. Form e TextFormField**
