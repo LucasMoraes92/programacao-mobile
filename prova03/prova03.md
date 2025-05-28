@@ -13,7 +13,6 @@ ________________________________________
 
 **Como usar**:
 
-
 return MaterialApp(
   title: 'PetApp',
   theme: ThemeData(
