@@ -31,7 +31,6 @@ ________________________________________
 
 **Como usar**:
 
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Perfil do Pet'),
@@ -56,13 +55,22 @@ ________________________________________
 
 **Como usar**:
 
-Form(
+        Form(
           key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(...)
+              Text(...),
               TextFormField(
+                controller: nomeController,
+                decoration: const InputDecoration(...),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Informe o nome do pet';
+                  }
+                  return null;
+                },
+              ),
                 controller: nomeController,
                 decoration: const InputDecoration(...),
                 validator: (value) {
@@ -82,16 +90,16 @@ ________________________________________
 
 **Como usar**:
 
-RadioListTile<PetGenero>(
-  title: const Text('Macho'),
-  value: PetGenero.macho,
-  groupValue: _generoSelecionado,
-  onChanged: (PetGenero? value) {
-    setState(() {
-      _generoSelecionado = value;
-    });
-  },
-);
+              RadioListTile<PetGenero>(
+                title: const Text('Macho'),
+                value: PetGenero.macho,
+                groupValue: _generoSelecionado,
+                onChanged: (PetGenero? value) {
+                  setState(() {
+                    _generoSelecionado = value;
+                  });
+                },
+              ),
 
 ________________________________________
 **5. CheckboxListTile e SwitchListTile**
@@ -106,26 +114,26 @@ ________________________________________
 
 **Como usar**:
 
-CheckboxListTile(
-  title: const Text('Gosta de crianças'),
-  value: _gostaCriancas,
-  onChanged: (bool? valor) {
-    setState(() {
-      _gostaCriancas = valor ?? false;
-    });
-  },
-);
-
-SwitchListTile(
-  title: const Text('Disponível para adoção'),
-  value: _disponivelParaAdocao,
-  onChanged: (bool valor) {
-    setState(() {
-      _disponivelParaAdocao = valor;
-    });
-  },
-);
-
+              const SizedBox(height: 16),
+              const Text('Preferências de Convivência'),
+              CheckboxListTile(
+                title: const Text('Gosta de crianças'),
+                value: _gostaCriancas,
+                onChanged: (bool? valor) {
+                  setState(() {
+                    _gostaCriancas = valor ?? false;
+                  });
+                },
+              ),
+              CheckboxListTile(
+                title: const Text('Convive bem com outros animais'),
+                value: _conviveOutrosAnimais,
+                onChanged: (bool? valor) {
+                  setState(() {
+                    _conviveOutrosAnimais = valor ?? false;
+                  });
+                },
+              ),
 ________________________________________
 **6. Métodos e Estado do Formulário**
 
@@ -139,16 +147,16 @@ _limparCampos(): Reseta os campos do formulário e estados dos controles.
 
 **Como usar**:
 
-void _salvarCadastro() {
-  if (_formKey.currentState!.validate()) {
-    // Processa os dados
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Dados salvos com sucesso!')),
-    );
+          void _limparCampos() {
+    _formKey.currentState?.reset();
+      (...)
+    setState(() {
+      (...)
+       void _salvarCadastro() {
+    if (_formKey.currentState!.validate()) {
+      (...);
+    });
   }
-}
-
-void _limparCampos() {
-  _formKey.currentState?.reset();
-  // Limpa os TextEditingControllers e estado
-}
+ 
+ 
+ 
