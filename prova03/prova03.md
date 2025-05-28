@@ -12,7 +12,6 @@ ________________________________________
 **Aplicações**: Inicia o app com PetApp, definindo uma paleta de cores com colorSchemeSeed e ativando recursos do Material 3.
 
 **Como usar**:
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
