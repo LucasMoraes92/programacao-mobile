@@ -57,18 +57,21 @@ ________________________________________
 **Como usar**:
 
 Form(
-  key: _formKey,
-  child: Column(
-    children: [
-      TextFormField(
-        controller: nomeController,
-        decoration: InputDecoration(...),
-        validator: (value) => value == null || value.isEmpty ? 'Informe o nome' : null,
-      ),
-      ...
-    ],
-  ),
-);
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(...)
+              TextFormField(
+                controller: nomeController,
+                decoration: const InputDecoration(...),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Informe o nome do pet';
+                  }
+                  return null;
+
+
 
 ________________________________________
 **4. RadioListTile**
