@@ -5,6 +5,7 @@
 
 ________________________________________
 **PETAPP**
+________________________________________
 **1. MaterialApp**
 **Descrição**: Widget principal da aplicação que configura o tema, título e define a tela inicial (PerfilPetScreen).
 
@@ -22,7 +23,7 @@ return MaterialApp(
   home: const PerfilPetScreen(),
 );
 
-
+________________________________________
 **2. Scaffold**
 **Descrição**: Fornece a estrutura visual principal, incluindo AppBar e área de conteúdo.
 
@@ -46,7 +47,7 @@ return Scaffold(
   ),
 );
 
-
+________________________________________
 **3. Form e TextFormField**
 
 **Descrição**: Form permite validação de múltiplos campos de entrada. TextFormField coleta dados textuais como nome, raça e idade do pet.
@@ -69,6 +70,7 @@ Form(
   ),
 );
 
+________________________________________
 **4. RadioListTile**
 
 **Descrição**: Componente que permite seleção única entre opções. Usado aqui para escolher o gênero do pet.
@@ -88,6 +90,7 @@ RadioListTile<PetGenero>(
   },
 );
 
+________________________________________
 **5. CheckboxListTile e SwitchListTile**
 
 **Descrição**: Permitem marcar preferências de convivência e disponibilidade para adoção com interação simples.
@@ -120,7 +123,7 @@ SwitchListTile(
   },
 );
 
-
+________________________________________
 **6. Métodos e Estado do Formulário**
 
 **Descrição**: A classe _PerfilPetScreenState é responsável por manter os dados dos campos e o estado da interface. Dois métodos principais controlam o comportamento: _salvarCadastro() e _limparCampos().
