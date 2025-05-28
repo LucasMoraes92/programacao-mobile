@@ -13,14 +13,18 @@ ________________________________________
 
 **Como usar**:
 
-return MaterialApp(
-  title: 'PetApp',
-  theme: ThemeData(
-    useMaterial3: true,
-    colorSchemeSeed: Colors.teal,
-  ),
-  home: const PerfilPetScreen(),
-);
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'PetApp',
+      theme: ThemeData(
+        useMaterial3: true,
+        colorSchemeSeed: Colors.teal,
+      ),
+      home: const PerfilPetScreen(),
+    );
+  }
+}
 
 ________________________________________
 **2. Scaffold**
