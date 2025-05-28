@@ -13,14 +13,14 @@ ________________________________________
 
 **Como usar**:
 
-return MaterialApp(
+ return MaterialApp(
   title: 'PetApp',
   theme: ThemeData(
     useMaterial3: true,
     colorSchemeSeed: Colors.teal,
   ),
   home: const PerfilPetScreen(),
-);
+ );
 
 ________________________________________
 **2. Scaffold**
